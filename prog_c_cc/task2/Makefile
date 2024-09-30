@@ -7,7 +7,7 @@ TARGET = main
 CC = gcc
 
 # コンパイル時に使用するオプション
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 # ビルドディレクトリ
 BUILD_DIR = build

@@ -6,6 +6,8 @@ const uint8_t kMatrixCommon = 3;
 const uint8_t kMatrixN = 5;
 const uint8_t kMatrixM = 4;
 
+int16_t matrixC[kMatrixN][kMatrixM] = {0};
+
 void print_matrix(int16_t matrix[kMatrixN][kMatrixM]) {
     for (uint8_t i = 0; i < 5; i++) {
         for (uint8_t j = 0; j < 4; j++) {
@@ -30,8 +32,6 @@ int main(void) {
         {1, 1, 2, 1},
         {1, 4, 5, -2},
         {-3, 13, 19, 0}};
-
-    int16_t matrixC[kMatrixN][kMatrixM] = {0};
 
     for (uint8_t i = 0; i < kMatrixN; i++) {
         for (uint8_t j = 0; j < kMatrixM; j++) {
