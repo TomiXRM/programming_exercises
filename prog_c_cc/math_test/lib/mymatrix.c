@@ -89,7 +89,7 @@ void matrix_multiply(Matrix *A, Matrix *B, Matrix *result) {
  * @param result: 結果を格納する行列
  */
 
-void mateix_transpose(Matrix *A, Matrix *result) {
+void matrix_transpose(Matrix *A, Matrix *result) {
     for (int i = 0; i < A->rows; i++) {
         for (int j = 0; j < A->cols; j++) {
             result->data[j][i] = A->data[i][j];
