@@ -7,7 +7,7 @@ TARGET = main
 CC = gcc
 
 # コンパイル時に使用するオプション
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 # ビルドディレクトリ
 BUILD_DIR = build
@@ -31,7 +31,8 @@ $(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # 実行するルール
-run: $(BUILD_DIR)/$(TARGET)
+run: 
+	make all -j20
 	./$(BUILD_DIR)/$(TARGET)
 
 # クリーンアップするルール
