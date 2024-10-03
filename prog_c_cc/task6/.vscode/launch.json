@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug with LLDB",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/main",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false,
+      "terminal": "integrated"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/tomixrm/Desktop/programming_exercises/prog_c_cc/task2",
+      "program": "/Users/tomixrm/Desktop/programming_exercises/prog_c_cc/task2/build/Debug/outDebug"
+    }
+  ]
+}
