@@ -73,13 +73,17 @@ double trapezoidal_rule(double (*f)(double), double a, double b, int n) {
 }
 
 /*
- * @brief: この関数は与えられた関数の積分を計算する
+ * @brief: この関数は与えられた関数の積分を計算する。Simpsonの1/3公式を使用する。
  * @param: f: 関数
  * @param: a: 積分区間の下限
  * @param: b: 積分区間の上限
- * @param: n: 区間の数
+ * @param: n: 区間の数。nは偶数である必要がある。
  */
-double simpson_rule(double (*f)(double), double a, double b, int n) {
+double simpson_rule1_3(double (*f)(double), double a, double b, int n) {
+    if (n % 2 != 0) {
+        printf("Error: nは偶数である必要があります\n");
+        return 0;
+    }
     double h = (b - a) / n;
     double sum1 = 0;
     double sum2 = 0;
@@ -89,8 +93,38 @@ double simpson_rule(double (*f)(double), double a, double b, int n) {
         } else {
             sum2 += f(a + i * h);
         }
+        printf("i:%d sum1=%f, sum2=%f\n", i, sum1, sum2);
     }
     return h * (f(a) + f(b) + 2 * sum1 + 4 * sum2) / 3;
+}
+
+/*
+ * @brief: この関数は与えられた関数の積分を計算する。Simpsonの3/8公式を使用する。
+ * @param: f: 関数
+ * @param: a: 積分区間の下限
+ * @param: b: 積分区間の上限
+ * @param: n: 区間の数。nは3の倍数である必要がある。
+ */
+double simpson_rule3_8(double (*f)(double), double a, double b, int n) {
+    if (n % 3 != 0) {
+        printf("Error: nは3の倍数である必要があります\n");
+        return 0;
+    }
+    double h = (b - a) / n;
+    double sum1 = 0;
+    double sum2 = 0;
+    double sum3 = 0;
+    for (int i = 1; i < n; i++) {
+        if (i % 3 == 0) {
+            sum1 += f(a + i * h);
+        } else if (i % 3 == 1) {
+            sum2 += f(a + i * h);
+        } else {
+            sum3 += f(a + i * h);
+        }
+        printf("i:%d sum1=%f, sum2=%f, sum3=%f\n", i, sum1, sum2, sum3);
+    }
+    return 3 * h * (f(a) + f(b) + 2 * sum1 + 3 * sum2 + 3 * sum3) / 8;
 }
 
 /*

@@ -5,18 +5,18 @@
 #include "lib/mymatrix.h"
 #include "lib/mymath.h"
 
-// f(x)=e^x -3x
 double f(double x) {
-    return exp(x) - 3 * x;
-}
-
-// f(x)の導関数
-double df(double x) {
-    return exp(x) - 3;
+    return 1 / x;
 }
 
 int main(void) {
-    // f(x)=e^x -3xの解をニュートンラプソン法で求める。x_0 = 0 , ε=10^-5。
-    double root = newton_raphson(f, df, 0, 1e-5);
-    printf("The root of the function is %f\n", root);
+    // Simpson の1/3公式で1→2の範囲で1/xの積分を求める
+
+    // 区間の数
+    int n = 100;
+    double a = 1;
+    double b = 2;
+    float sum = simpson_rule1_3(f, a, b, n);
+
+    printf("sum = %f\n", sum);
 }

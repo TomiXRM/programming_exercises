@@ -36,13 +36,22 @@ double newton_raphson(double (*f)(double), double (*df)(double), double x0, doub
 double trapezoidal_rule(double (*f)(double), double a, double b, int n);
 
 /*
- * @brief: この関数は与えられた関数の積分を計算する
+ * @brief: この関数は与えられた関数の積分を計算する。Simpsonの1/3公式を使用する。
  * @param: f: 関数
  * @param: a: 積分区間の下限
  * @param: b: 積分区間の上限
- * @param: n: 区間の数
+ * @param: n: 区間の数。nは偶数である必要がある。
  */
-double simpson_rule(double (*f)(double), double a, double b, int n);
+double simpson_rule1_3(double (*f)(double), double a, double b, int n);
+
+/*
+ * @brief: この関数は与えられた関数の積分を計算する。Simpsonの3/8公式を使用する。
+ * @param: f: 関数
+ * @param: a: 積分区間の下限
+ * @param: b: 積分区間の上限
+ * @param: n: 区間の数。nは3の倍数である必要がある。
+ */
+double simpson_rule3_8(double (*f)(double), double a, double b, int n);
 
 /*
  * @brief: この関数は与えられた関数の積分を計算する
