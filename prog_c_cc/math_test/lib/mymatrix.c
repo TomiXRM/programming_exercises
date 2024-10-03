@@ -1,3 +1,8 @@
+/*
+ * @file mymatrix.c
+ * @brief 行列演算を行う関数群
+ * @copyright Daiki Tomioka all rights reserved
+ */
 #include "mymatrix.h"
 
 /*
@@ -100,7 +105,7 @@ void mateix_transpose(Matrix *A, Matrix *result) {
 void matrix_print(Matrix *matrix) {
     for (int i = 0; i < matrix->rows; i++) {
         for (int j = 0; j < matrix->cols; j++) {
-            printf("%f ", matrix->data[i][j]);
+            printf("%.2f\t", matrix->data[i][j]); // 小数点2桁まで表示
         }
         printf("\n");
     }
