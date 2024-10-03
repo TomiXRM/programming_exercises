@@ -44,11 +44,13 @@ double bisection(double (*f)(double), double a, double b, double tol) {
 double newton_raphson(double (*f)(double), double (*df)(double), double x0, double tol) {
     double x = x0;
     double fx = f(x);
+    double dfx = df(x);
     uint8_t count = 0;
     while (fabs(fx) > tol) {
         x = x - fx / df(x);
         fx = f(x);
-        printf("count:%d x=%f, f(x)=%f\n", count, x, fx);
+        dfx = df(x);
+        printf("count:%d x=%f, df(x)=%f, f(x)=%f\n", count, x, dfx, fx);
         count++;
     }
     return x;
