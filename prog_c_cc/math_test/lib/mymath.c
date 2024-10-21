@@ -45,12 +45,15 @@ double newton_raphson(double (*f)(double), double (*df)(double), double x0, doub
     double x = x0;
     double fx = f(x);
     double dfx = df(x);
+    double dx = 0;
     uint8_t count = 0;
+    printf("inital  x=%f, f(x)=%f, df(x)=%f, dx=%f\n", x,fx,dfx,dx);
     while (fabs(fx) > tol) {
         x = x - fx / df(x);
         fx = f(x);
         dfx = df(x);
-        printf("count:%d x=%f, df(x)=%f, f(x)=%f\n", count, x, dfx, fx);
+        dx = -fx / df(x);
+        printf("count:%d x=%f, f(x)=%f, df(x)=%f, dx=%f\n", count, x,fx,dfx,dx);
         count++;
     }
     return x;
