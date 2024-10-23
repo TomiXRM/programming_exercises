@@ -8,6 +8,7 @@
 // x_1 + 6x_2 + 4x_3 +3x_4 = 13
 
 int main() {
+    //係数行列
     Matrix A = {
         .data = (double *[]) { (double []) {3, 2, 7, 1},
                                (double []) {1, 5, 1, -1},
@@ -17,16 +18,16 @@ int main() {
         .cols = 4
     };
 
-    double b[] = {8, 5, 7, 13};
+    double b[] = {8, 5, 7, 13}; //定数項
 
-    int n = 4;
+    int n = 4; //次数
 
     if (gauss_jordan(&A, b, n) == 0) {
         printf("Error: 0で割り算が発生しました\n");
         return 1;
     }
+    
     // 計算結果を表示
-
     for (int i = 0; i < n; i++) {
         printf("x_%d = %f\n", i + 1, b[i]);
     }
