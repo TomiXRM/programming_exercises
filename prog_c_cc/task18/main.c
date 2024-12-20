@@ -27,6 +27,19 @@ void least_squares_polynomial(int degree, const double x[], const double y[], in
         }
     }
 
+    // print
+    printf("🟥A:\n");
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%.2f ", A.data[i][j]);
+        }
+        printf("\n");
+    }
+    printf("🟦b:\n");
+    for (int i = 0; i < m; i++) {
+        printf("%.2f\n", b[i]);
+    }
+
     // 連立方程式を解く
     gauss_jordan(&A, b, m);
     for (int i = 0; i < m; i++) {
