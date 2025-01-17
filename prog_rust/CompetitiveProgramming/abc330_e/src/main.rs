@@ -5,125 +5,92 @@ use std::collections::BTreeMap;
 
 const DEBUG: bool = false;
 
-struct MexInfo {
-    value: u64,                  // mex(非負整数)の値
-    pos_of_around_mex: Vec<u64>, // 注意スポット
+fn print_map(map: &BTreeMap<u128, u128>) {
+    for (_, (key, value)) in map.iter().enumerate() {
+        println!("#{}: count:{}", key, value);
+    }
+}
+
+fn update_map(map: &mut BTreeMap<u128, u128>, value: &u128, removed_value: &u128) {
+    if let Some(count) = map.get_mut(value) {
+        *count += 1;
+    } else {
+        map.entry(value.clone()).or_insert(1);
+    }
+
+    if let Some(count) = map.get_mut(removed_value) {
+        *count -= 1;
+        if *count == 0 {
+            map.remove(removed_value);
+        }
+    }
+}
+
+fn calc_mex(map: &BTreeMap<u128, u128>) {
+    let mut mex = u128::MAX;
+    let min_key = *map
+        .first_key_value()
+        .map(|(k, _)| k)
+        .expect("最小値が取り出せませんでした");
+    let max_key = *map
+        .last_key_value()
+        .map(|(k, _)| k)
+        .expect("最大値が取り出せませんでした");
+    if DEBUG {
+        println!("min:{} max:{} ", min_key, max_key);
+    }
+
+    if min_key == 1 {
+        mex = 0;
+    } else {
+        for k in (min_key + 1)..=(max_key + 1) {
+            if !map.contains_key(&k) {
+                mex = k;
+                break;
+            }
+        }
+    }
+    if DEBUG {
+        print!("mex:");
+    }
+    println!("{}", mex);
 }
 
 fn main() {
     input! {
-        (n , q) : (usize, i64),
-        // mut a_list : [i64;n],
+        (n , q) : (u128, u128),
     };
 
-    let mut a_list: Vec<u64> = vec![0; n];
-    let mut map: BTreeMap<u64, Vec<u64>> = BTreeMap::new();
-    let mut mex_info: MexInfo = MexInfo {
-        value: u64::MAX, // u64::max_value() は u64::MAX と同義です
-        pos_of_around_mex: vec![0; 1],
-    };
-    let mut mex_prev;
+    let mut a_list = vec![0; n as usize];
+    let mut map: BTreeMap<u128, u128> = BTreeMap::new();
 
+    // 数列A1~Anの受け取り
     for i in 0..n {
         input! {
-            val :u64,
-        };
-        a_list[i] = val;
-        map.entry(val).or_insert(Vec::new()).push(i as u64);
+            value :u128
+        }
+        a_list[i as usize] = value;
+        //  数列Aの要素aについて、重複数を数える
+        update_map(&mut map, &value, &u128::MAX);
+        // calc_mex(&map);
     }
-
     if DEBUG {
-        println!("{:?}", map);
+        println!("{:?}", a_list);
+        print_map(&map);
     }
 
     for _ in 0..q {
         input! {
-            (i, val) : (usize,u64),
-        }
-        let removed_val = a_list[i - 1];
-        a_list[i - 1] = val;
+            (index, input_value) : (u128,u128),
+        };
 
-        // もし注意スポットに更新があればmexの更新を調査
+        let removed_value = a_list[index as usize - 1];
+        a_list[index as usize - 1] = input_value; // 数値の置き換え
+        update_map(&mut map, &input_value, &removed_value);
+        calc_mex(&map);
         if DEBUG {
-            println!("remove key{}", removed_val);
+            println!("{:?}", a_list);
+            print_map(&map);
         }
-
-        if let Some(v) = map.get(&removed_val) {
-            if v.len() == 1 {
-                map.remove(&removed_val);
-            }
-        } else {
-            for pos in mex_info.pos_of_around_mex.iter() {
-                if (i) as u64 == *pos {
-                    if let Some(v) = map.get_mut(&removed_val) {
-                        v.retain(|&x| x != i as u64); // i と一致する値を削除
-                    }
-                }
-            }
-        }
-
-        map.entry(val).or_insert(Vec::new()).push(i as u64);
-
-        let min_val_in_a_list = *map
-            .first_key_value()
-            .map(|(x, _)| x)
-            .expect("最小値を出せませんでした");
-        let max_val_in_a_list = *map
-            .last_key_value()
-            .map(|(x, _)| x)
-            .expect("最大値を出せませんでした");
-        if DEBUG {
-            println!("min:{} max:{}", min_val_in_a_list, max_val_in_a_list);
-        }
-        mex_prev = mex_info.value;
-        if min_val_in_a_list > 0 {
-            mex_info.value = 0; // 確定演出
-            mex_info.pos_of_around_mex = vec![0; 1];
-            if DEBUG {
-                print!("🍣");
-            }
-        } else {
-            for i in min_val_in_a_list..=max_val_in_a_list {
-                if !map.contains_key(&i) {
-                    if DEBUG {
-                        println!("☕️{}", i);
-                    }
-                    mex_info.value = i;
-                    mex_info.pos_of_around_mex = vec![];
-                    match map.get(&(mex_info.value - 1)) {
-                        Some(v) => mex_info.pos_of_around_mex.extend(v),
-                        None => {}
-                    }
-                    match map.range((mex_info.value - 1)..).nth(1) {
-                        Some((_, v)) => mex_info.pos_of_around_mex.extend(v),
-                        None => {}
-                    }
-
-                    break;
-                } else {
-                    if DEBUG {
-                        println!("🍧{}", i);
-                    }
-                }
-            }
-            if mex_prev == mex_info.value {
-                mex_info.value = max_val_in_a_list + 1;
-                if DEBUG {
-                    print!("🍔");
-                }
-            }
-        }
-        if DEBUG {
-            println!("list:{:?}", a_list);
-            println!("map:{:?}", map);
-            println!("mex:{}", mex_info.value);
-            println!("注意スポット:{:?}", mex_info.pos_of_around_mex);
-        }
-        println!("{}", mex_info.value);
     }
-
-    // println!("{:?}",a_list);
-
-    // let min_value = *a_list.iter().min().unwrap();
-    // let max_value = *a_list.iter().min().unwrap();
 }
