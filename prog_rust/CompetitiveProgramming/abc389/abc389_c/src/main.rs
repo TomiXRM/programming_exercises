@@ -1,61 +1,102 @@
 // https://atcoder.jp/contests/abc389/tasks/abc389_c
 
 use std::collections::VecDeque;
-use std::io::stdin;
+use proconio::input;
 
 fn main() {
-    let mut str_q = String::new();
-    stdin()
-        .read_line(&mut str_q)
-        .expect("読み込みに失敗しました");
-    let q = str_q
-        .trim()
-        .parse::<u128>()
-        .expect("Qには数値を入力してください");
+    input!{
+        q : usize,
+    }
 
-    let mut pos_que: VecDeque<u128> = VecDeque::new(); // 長さを保存するDeque
+    let mut deque: VecDeque<i128> = VecDeque::new();
+    deque.push_back(0); // 初期値 0 を追加
+    let mut removed: i128 = 0;
 
-    let mut query = String::new();
     for _ in 0..q {
-        query.clear();
-        stdin()
-            .read_line(&mut query)
-            .expect("読み込みに失敗しました");
-        let mut s_iter = query.split_whitespace();
-        let query = s_iter.next().unwrap().parse::<u128>();
-        match query {
-            Ok(1_u128) => {
-                let l = s_iter
-                    .next()
-                    .unwrap()
-                    .parse::<u128>()
-                    .expect("lの値を取得できませんでした");
-                pos_que.push_back(l);
+        input! {
+            t : i128
+        }
+
+        match t {
+            1 => {
+                input! {
+                    l : i128
+                }
+                deque.push_back(deque.back().copied().unwrap() + l);
             }
-            Ok(2_u128) => {
-                // let pos_front_before =
-                pos_que.pop_front().expect("pos_queが空です");
-            }
-            Ok(3_u128) => {
-                let k = s_iter
-                    .next()
-                    .unwrap()
-                    .parse::<usize>()
-                    .expect("kの値を取得できませんでした");
-                let sum = pos_que.iter().take(k - 1).sum::<u128>();
-                // println!("sum:{} p:{}",sum,sum + fromt_pos_offset);
-                println!("{}", sum);
-            }
-            Err(err) => {
-                println!("{}", err);
+            2 => {
+                removed += deque[1] - deque[0];
+                deque.pop_front();
             }
             _ => {
-                panic!("どういうことですか？");
+                input! {
+                    k : i128
+                }
+                let k: i128 = k - 1;
+                let ans: i128 = deque[k.try_into().unwrap()] - removed;
+                println!("{}", ans);
             }
         }
-        // println!("pos_que{:?} offset:{}", pos_que,fromt_pos_offset);
+        println!("removed:{} deque{:?}",removed, deque);
     }
 }
+
+// use std::collections::VecDeque;
+// use std::io::stdin;
+
+// fn main() {
+//     let mut str_q = String::new();
+//     stdin()
+//         .read_line(&mut str_q)
+//         .expect("読み込みに失敗しました");
+//     let q = str_q
+//         .trim()
+//         .parse::<u128>()
+//         .expect("Qには数値を入力してください");
+
+//     let mut pos_que: VecDeque<u128> = VecDeque::new(); // 長さを保存するDeque
+
+//     let mut query = String::new();
+//     for _ in 0..q {
+//         query.clear();
+//         stdin()
+//             .read_line(&mut query)
+//             .expect("読み込みに失敗しました");
+//         let mut s_iter = query.split_whitespace();
+//         let query = s_iter.next().unwrap().parse::<u128>();
+//         match query {
+//             Ok(1_u128) => {
+//                 let l = s_iter
+//                     .next()
+//                     .unwrap()
+//                     .parse::<u128>()
+//                     .expect("lの値を取得できませんでした");
+//                 pos_que.push_back(l);
+//             }
+//             Ok(2_u128) => {
+//                 // let pos_front_before =
+//                 pos_que.pop_front().expect("pos_queが空です");
+//             }
+//             Ok(3_u128) => {
+//                 let k = s_iter
+//                     .next()
+//                     .unwrap()
+//                     .parse::<usize>()
+//                     .expect("kの値を取得できませんでした");
+//                 let sum = pos_que.iter().take(k - 1).sum::<u128>();
+//                 // println!("sum:{} p:{}",sum,sum + fromt_pos_offset);
+//                 println!("{}", sum);
+//             }
+//             Err(err) => {
+//                 println!("{}", err);
+//             }
+//             _ => {
+//                 panic!("どういうことですか？");
+//             }
+//         }
+//         // println!("pos_que{:?} offset:{}", pos_que,fromt_pos_offset);
+//     }
+// }
 
 // use std::collections::VecDeque;
 // use std::io;
