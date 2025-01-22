@@ -21,7 +21,7 @@ fn main() {
     input! {
         r : u64,
     };
-
+    korega_seikai(&(r as i64));
     let r_f64: f64 = r as f64;
     let mut count = 0;
     let mut count_on_y_line = 0;
@@ -43,10 +43,10 @@ fn main() {
                 }
                 
             }else{
-                print!("🍣");
+                // print!("🍣");
                 break;
             }
-            println!("{x_inc},{y_inc}");
+            // println!("{x_inc},{y_inc}");
         }
     }
 
@@ -54,5 +54,27 @@ fn main() {
     let ans = 4 * (count - count_on_y_line) + 1;
     print!("ans:");
     println!("{ans}");
-    println!("iter{iter_count} count:{box_count}");
+    println!("iter{iter_count} box_count:{box_count}");
+}
+
+
+fn korega_seikai(r :&i64){
+    let in_circle = |a: i64, b: i64| {
+        (2 * a + 1) * (2 * a + 1) + (2 * b + 1) * (2 * b + 1) <= 4 * r * r
+    };
+
+    let mut cnt = 0;
+    let mut up = r - 1;
+    let mut res = (r - 1) * 4 + 1;
+    for x in 1.. {
+        if !in_circle(x, 1) {
+            break;
+        }
+        while !in_circle(x, up) {
+            up -= 1;
+        }
+        cnt += up;
+    }
+    res += cnt * 4;
+    println!("{}", res);
 }
