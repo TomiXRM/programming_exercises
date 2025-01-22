@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0", // 設定ファイルのバージョン
+    "configurations": [ // デバッグ設定の配列。複数の設定を定義できます。
+      {
+        "type": "lldb", // デバッガの種類。RustではLLDBを使用します。
+        "request": "launch", // デバッグの開始方法。"launch"はプログラムを新規に起動します。
+        "name": "Rust Debug Launch", // デバッグ設定の名前。VSCodeのデバッグドロップダウンに表示されます。
+        "program": "${workspaceRoot}/target/debug/${workspaceRootFolderName}", 
+          /* デバッグする実行ファイルのパス。
+            ${workspaceRoot}はワークスペースのルートディレクトリ、
+            ${workspaceRootFolderName}はワークスペースのフォルダ名を表します。
+          */
+        "args": [], // プログラムに渡す引数の配列。
+        "cwd": "${workspaceRoot}/target/debug/", // デバッグ実行時のカレントディレクトリ。
+        "sourceLanguages": ["rust"], // デバッグするソースコードの言語。
+        "preLaunchTask": "Rust: Build and Debug" // デバッグ開始前に実行するタスク。
+          // ここでは"Rust: Build and Debug"というタスクが実行されます。
+      }
+    ]
+  }
