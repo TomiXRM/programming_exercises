@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
-
+use std::time::Instant;
 fn main() {
-    
+    let time_start = Instant::now();
     let list: [i32; 10] = [1, 5, 9, 1, 20, 5, 3, 6, 5, 4];
     let target = 15;
 
@@ -33,4 +33,5 @@ fn main() {
         }
         print!("\n");
     }
+    println!("処理時間: {:?}", time_start.elapsed());
 }

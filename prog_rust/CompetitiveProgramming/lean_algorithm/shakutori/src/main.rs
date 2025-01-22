@@ -1,7 +1,9 @@
 // 区間の和が15になる特定の区間を尺取り法で探してリスト化する問題
-
+use std::time::Instant;
 fn main() {
+    let time_start = Instant::now();
     let list: [i32; 10] = [1, 5, 9, 1, 20, 5, 3, 6, 5, 4];
+    let target = 15;
 
     let mut range_memo: Vec<(usize, usize)> = Vec::new();
     println!("{:?} len:{}", list, list.len());
@@ -9,8 +11,6 @@ fn main() {
     let mut right_pos = 0_usize;
     let mut left_pos = 0_usize;
     let mut sum = 0_i32;
-
-    let target = 15;
 
     // 要素1個目(初期値)を入れておく
     sum += list[right_pos];
@@ -21,19 +21,19 @@ fn main() {
                 range_memo.push((left_pos, right_pos));
             }
 
-            println!(
-                "l:{} r:{} sum:{} {:?}",
-                left_pos, right_pos, sum, range_memo
-            );
+            // println!(
+            //     "l:{} r:{} sum:{} {:?}",
+            //     left_pos, right_pos, sum, range_memo
+            // );
 
             sum -= list[left_pos];
             left_pos += 1;
         }
 
-        println!(
-            "l:{} r:{} sum:{} {:?}",
-            left_pos, right_pos, sum, range_memo
-        );
+        // println!(
+        //     "l:{} r:{} sum:{} {:?}",
+        //     left_pos, right_pos, sum, range_memo
+        // );
 
         if right_pos < list.len() - 1 {
             right_pos += 1;
@@ -60,6 +60,7 @@ fn main() {
         }
         print!("\n");
     }
+    println!("処理時間: {:?}", time_start.elapsed());
 }
 
 // 最初の実装
