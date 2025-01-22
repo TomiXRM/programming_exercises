@@ -51,6 +51,15 @@ fn main() {
             break;
         }
     }
+
+    // 結果を表示
+    for (i, (s, t)) in range_memo.iter().enumerate() {
+        print!("{i}: range[{s},{t}] values:");
+        for j in range_memo[i].0..=range_memo[i].1 {
+            print!(" {}", list[j]);
+        }
+        print!("\n");
+    }
 }
 
 // 最初の実装
