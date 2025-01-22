@@ -1,0 +1,17 @@
+{
+      "version": "2.0.0",
+      "tasks": [
+          {
+              "label": "Rust: Build and Debug", // タスクのラベル名
+              "type": "shell", // シェルコマンドを実行するタスク
+              "command": "cargo build", // 実行するコマンド
+              "group": {
+                  "kind": "build", // ビルドタスクとして設定
+                  "isDefault": true // デフォルトのビルドタスクに設定
+              },
+              "problemMatcher": [
+                  "$rustc" // Rustのコンパイラエラーを認識
+              ]
+          }
+      ]
+  }
